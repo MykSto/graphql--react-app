@@ -1,28 +1,38 @@
 import React from 'react';
-import Spinner from 'component/UI/Spinner/Spinner';
 import Aux from 'hoc/Auxiliary';
 import Login from 'component/UI/Form/Login/Login';
 import Button from 'component/UI/Button/Button';
+import Data from 'component/Data/Data';
+import { ApolloClient } from 'apollo-boost';
+import { ApolloProvider } from 'react-apollo';
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+
+const httpLink = createHttpLink({
+  uri: 'https://api.github.com/graphql',
+});
 
 const accessToken = localStorage.getItem('token');
 
-fetch('https://api.github.com/graphql', {
-    method: 'POST',
+const authLink = setContext((_, { headers }) => {
+  // get the authentication token from local storage if it exists
+  // return the headers to the context so httpLink can read them
+
+  return {
     headers: {
-        Authorization: `bearer ${accessToken}`,
+      ...headers,
+      authorization: accessToken ? `Bearer ${accessToken}` : '',
     },
-    body: JSON.stringify({
-        query: `
-        {
-            viewer {
-                name
-            }
-        }
-        `
-    })
-}).then(res => res.json())
-.then(json => console.log(json))
- 
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache(),
+});
+
+
 const DataBuilder = () => {
   const accessTokenHandler = () => {
     localStorage.clear();
@@ -30,9 +40,12 @@ const DataBuilder = () => {
   };
 
   return (
-    <Aux>
-      {accessToken ? <Button clicked={accessTokenHandler} btnType="Danger">Logout</Button> : <Login />}
-    </Aux>
+    <ApolloProvider client={client}>
+      <Aux>
+        {accessToken ? <Button clicked={accessTokenHandler} btnType="Danger">Logout</Button> : <Login />}
+        <Data />
+      </Aux>
+    </ApolloProvider>
   );
 };
 

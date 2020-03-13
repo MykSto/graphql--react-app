@@ -7,6 +7,6 @@ const App = () => {
       <DataBuilder />
     </div>
   );
-}
+};
 
 export default App;
