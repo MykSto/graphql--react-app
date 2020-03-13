@@ -35,12 +35,11 @@ const DataBuilder = () => {
   return (
     <ApolloProvider client={client}>
       <Aux>
-        {accessToken ? (
-          <Aux>
+        {accessToken ? 
+        //   <Aux>
             <Button clicked={accessTokenHandler} btnType="Danger">Logout</Button>
-            <Input />
-          </Aux>
-        ) : <Login />}
+        //   </Aux>
+         : <Login />}
         <Data />
       </Aux>
     </ApolloProvider>
