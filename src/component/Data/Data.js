@@ -24,15 +24,13 @@ const data = () => {
           {error && <p>ERROR</p>}
           {!data && <p>Not found</p>}
           {data && data.viewer && (
-            Object.keys(data.viewer).map((el, igKey) => (
+            Object.keys(data.viewer).map((el) => (
                 <div key={el}>
                 <p>{el}:{data.viewer[el]}</p>
                 </div>
             )
           )
           )}
-          {/* {data && data.viewer && Object.keys(data.viewer).map(el => (data.viewer[el])).map(el=> (el))} */}
-          {/* {console.log(data && data.viewer && Object.keys(data.viewer).map(el => (el)))} */}
         </Aux>
       )}
     </Query>
