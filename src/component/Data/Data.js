@@ -10,48 +10,78 @@ import Spinner from 'component/UI/Spinner/Spinner';
 const Data = () => {
   const [data, setData] = useState({
     user: '',
+    owner: '',
+    pullQuant: 0,
+    issueQuant: 0,
+    issueState: [],
   });
 
   const GET_VIEWER = gql`
-  query getViewer($user: String!)
-{
-    user(login: $user) {
-        repositories{
-            totalCount
+  query getViewer($name: String!, $owner: String!, $pullQuant: Int, $issueQuant: Int, $issueState: [IssueState!])
+{ 
+    repository(name: $name, owner: $owner){
+        issues(last: $issueQuant, states: $issueState){
+            edges{
+              node{
+                title
+              }
+            }
+          }
+          pullRequests(last: $pullQuant){
+            edges{
+                node{
+                    title
+                }
+            }
         }
     }
 }
 `;
-  const { user } = data;
+  const { name, owner, pullQuant, issueQuant, issueState } = data;
+
+  const _lastArray = (arr) => arr[arr.length - 1];
+
+  const issueStateHandler = (event) => {
+      setData({...data, issueState: event.target.value})
+  }
 
   return (
     <Aux>
       <div>
-        <input onChange={(e) => setData({ user: e.target.value })} />
+        <label>Repository</label>
+        <input onChange={(e) => setData({ ...data, name: e.target.value })} />
+        <label>User</label>
+        <input onChange={(e) => setData({ ...data, owner: e.target.value })} />
+        <label>pullQuant</label>
+        <input type="number" onChange={(e) => setData({ ...data, pullQuant: parseInt(e.target.value, 10) })} />
+        <label>issueQuant</label>
+        <input type="number" onChange={(e) => setData({ ...data, issueQuant: parseInt(e.target.value, 10) })} />
+        <label>issueState</label>
+        <select onChange={issueStateHandler}>
+        <option>CLOSED</option>
+        <option>OPEN</option>
+        </select>
       </div>
 
       <Query
-        variables={{ user }}
+        variables={{ name, owner, pullQuant, issueQuant, issueState }}
         query={GET_VIEWER}
       >
 
         {({ loading, error, data }) => (
           <Aux>
-            { loading && <Spinner />}
+            {loading && <Spinner />}
             {error && <p>ERROR</p>}
             {!data && <p>Not found</p>}
-            {data && data.user.repositories && (
-              Object.keys(data.user.repositories).map((el) => (
-                <div key={el}>
-                  <p>
-                    {el}
-                    :
-                    {data.user.repositories[el]}
-                  </p>
-                </div>
-              ))
-            )}
-            {(getViewer) => <Button clicked={getViewer} btnType="Danger">Submit</Button>}
+            {data && data.repository && data.repository.pullRequests
+            && data.repository.pullRequests.edges && Object.keys(data.repository.pullRequests.edges).map((el) => (
+              <p style={{ color: 'green' }} key={el}>{data.repository.pullRequests.edges[el].node.title}</p>
+            ))}
+            {data && data.repository && data.repository.issues
+            && data.repository.issues.edges && Object.keys(data.repository.issues.edges).map((el) => (
+              <p style={{ color: 'red' }} key={el}>{data.repository.issues.edges[el].node.title}</p>
+            ))}
+            {data && data.repository && data.repository.issues && console.log(data)}
           </Aux>
         )}
       </Query>
