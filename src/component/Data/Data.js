@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Aux from 'hoc/Auxiliary';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Button from 'component/UI/Button/Button';
 import Spinner from 'component/UI/Spinner/Spinner';
-import Test from 'component/UI/test';
+import IssueCard from 'component/UI/Card/IssueCard/IssueCard';
+import PullRequestCard from 'component/UI/Card/PullRequestCard/PullRequestCard';
 
 const Data = () => {
   const [data, setData] = useState({
@@ -27,6 +27,7 @@ const Data = () => {
                 comments(first: 5) {
                     edges {
                         node {
+                            id
                             bodyText
                         }
                     }
@@ -89,16 +90,23 @@ const Data = () => {
             {!data && <p>No results</p>}
             {data && data.repository && (
               <div>
-                {data.repository.issues.edges.map(({ node }) => (
-                  <div key={node.id}>
-                    <p style={{ color: 'blue'}}>{node.title}</p>
-                  </div>
-                ))}
-                {data.repository.pullRequests.edges.map(({ node }) => (
-                  <div key={node.id}>
-                    <p style={{ color: 'red'}}>{node.title}</p>
-                  </div>
-                ))}
+                {data.repository.issues.edges.length
+                  ? data.repository.issues.edges.map(({ node }) => (
+                    <IssueCard
+                      key={node.id}
+                      title={node.title}
+                      comments={node.comments.edges.map(({ node }) => (
+                        node.bodyText
+                      ))}
+                    />
+                  )) : null}
+                {data.repository.pullRequests.edges.length
+                  ? data.repository.pullRequests.edges.map(({ node }) => (
+                    <PullRequestCard
+                      key={node.id}
+                      title={node.title}
+                    />
+                  )) : null}
               </div>
             )}
           </Aux>
