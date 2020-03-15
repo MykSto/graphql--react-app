@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Aux from 'hoc/Auxiliary';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Spinner from 'component/UI/Spinner/Spinner';
-import Input from 'component/UI/Input/Input';
-import IssueCard from 'component/UI/Card/IssueCard/IssueCard';
-import PullRequestCard from 'component/UI/Card/PullRequestCard/PullRequestCard';
+import Spinner from 'components/UI/Spinner/Spinner';
+import Input from 'components/UI/Input/Input';
+import IssueCard from 'components/UI/Card/IssueCard/IssueCard';
+import PullRequestCard from 'components/UI/Card/PullRequestCard/PullRequestCard';
 
 const Data = () => {
   const [data, setData] = useState({

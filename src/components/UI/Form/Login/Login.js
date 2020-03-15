@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from 'component/UI/Button/Button';
+import Button from 'components/UI/Button/Button';
 import styles from './Login.module.css';
 
 const Login = () => {

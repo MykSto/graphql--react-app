@@ -1,6 +1,6 @@
 .Card {
     display: flex;
-    height: 200px;
+    height: 70px;
     width: 80%;
     background-color: #415D43;
     border-radius: 10px;
@@ -41,13 +41,11 @@
     font-weight: 300;
     position: absolute;
     left: 20px;
-    top: 15px;
-    z-index: 99;
 }
 
 .Card .Bar {
     position: absolute;
-    top: 65px;
+    top: 10px;
     left: 20px;
     height: 5px;
     width: 150px;
@@ -80,5 +78,5 @@
     padding: 10px 20px;
     position: absolute;
     bottom: 0;
-    color: white;
+    color: red;
   }

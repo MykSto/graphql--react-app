@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import issueSvg from 'assets/issue-icon.svg';
 import commentSvg from 'assets/comment-icon.svg';
+import Modal from 'components/UI/Modal/Modal';
 import styles from './IssueCard.module.css';
 
 const IssueCard = (props) => {
@@ -29,7 +30,8 @@ const IssueCard = (props) => {
         <div className={styles.Filledbar} />
       </div>
       <div className={styles.Comments}>
-        {comments.showComments
+        <Modal showComments={comments.showComments}>
+          {comments.showComments
             && commentsArray.sort().map((el) => (
               <ul key={el.id}>
                 <li>
@@ -38,6 +40,7 @@ const IssueCard = (props) => {
                 </li>
               </ul>
             ))}
+        </Modal>
       </div>
     </div>
   );

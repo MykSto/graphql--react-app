@@ -1,9 +1,9 @@
 import React from 'react';
 import Aux from 'hoc/Auxiliary';
-import Login from 'component/UI/Form/Login/Login';
-import Button from 'component/UI/Button/Button';
+import Login from 'components/UI/Form/Login/Login';
+import Button from 'components/UI/Button/Button';
 
-import Data from 'component/Data/Data';
+import Data from 'components/Data/Data';
 import { ApolloClient } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
