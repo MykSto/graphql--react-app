@@ -5,10 +5,10 @@
     background-color: #415D43;
     border-radius: 10px;
     box-shadow: -0rem 0 1rem #000;
-  /*   margin-left: -50px; */
     transition: 0.4s ease-out;
     position: relative;
     margin: 0 auto;
+    top: 50px;
 }
 
 .Card img {
@@ -42,11 +42,12 @@
     position: absolute;
     left: 20px;
     top: 15px;
+    z-index: 99;
 }
 
 .Card .Bar {
     position: absolute;
-    top: 100px;
+    top: 65px;
     left: 20px;
     height: 5px;
     width: 150px;
@@ -80,17 +81,4 @@
     position: absolute;
     bottom: 0;
     color: white;
-  }
-
-  .Card .NoComments {
-    display: flex;
-    height: 50px;
-    width: 80%;
-    background-color: #17141d;
-    border-radius: 10px;
-    box-shadow: -0rem 0 1rem #000;
-  /*   margin-left: -50px; */
-    transition: 0.4s ease-out;
-    position: relative;
-    margin: 0 auto;
   }

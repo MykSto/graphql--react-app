@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'component/UI/Button/Button';
 import styles from './Login.module.css';
 
-const Login = (props) => {
+const Login = () => {
   const [token, setToken] = useState('');
 
   const submitFormHandler = (event) => {
@@ -14,7 +14,7 @@ const Login = (props) => {
   return (
     <div className={styles.Login}>
       <form onSubmit={submitFormHandler}>
-        <h1>GitHub Login</h1>
+        <h1>GitHub Repository Search</h1>
         <input
           type="password"
           name="token"
@@ -24,7 +24,7 @@ const Login = (props) => {
           }
           placeholder="Enter GitHub token"
         />
-      <Button type="submit" btnType="Success">Submit</Button>
+        <Button type="submit" btnType="Success">Submit</Button>
       </form>
     </div>
   );

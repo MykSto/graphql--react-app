@@ -3,23 +3,24 @@ import Aux from 'hoc/Auxiliary';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Spinner from 'component/UI/Spinner/Spinner';
+import Input from 'component/UI/Input/Input';
 import IssueCard from 'component/UI/Card/IssueCard/IssueCard';
 import PullRequestCard from 'component/UI/Card/PullRequestCard/PullRequestCard';
 
 const Data = () => {
   const [data, setData] = useState({
-    user: '',
+    name: '',
     owner: '',
-    pullQuant: 0,
-    issueQuant: 0,
+    pullQuanity: 0,
+    issueQuanity: 0,
     issueState: [],
   });
 
   const GET_VIEWER = gql`
-    query getViewer($name: String!, $owner: String!, $pullQuant: Int, $issueQuant: Int, $issueState: [IssueState!]) 
+    query getViewer($name: String!, $owner: String!, $pullQuanity: Int, $issueQuanity: Int, $issueState: [IssueState!]) 
     { 
     repository(name: $name, owner: $owner) {
-        issues(last: $issueQuant, states: $issueState) {
+        issues(last: $issueQuanity, states: $issueState) {
             edges {
               node {
                 id
@@ -35,7 +36,7 @@ const Data = () => {
             }
         }
     }
-          pullRequests(last: $pullQuant) {
+          pullRequests(last: $pullQuanity) {
             edges {
                 node {
                     id
@@ -47,38 +48,44 @@ const Data = () => {
 }
 `;
   const {
-    name, owner, pullQuant, issueQuant, issueState,
+    name, owner, pullQuanity, issueQuanity, issueState,
   } = data;
 
 
   return (
     <Aux>
       <div>
-        <div>
-          <label>Github Repository Name</label>
-          <input onChange={(e) => setData({ ...data, name: e.target.value })} />
-        </div>
-
-        <div>
-          <label>Github Owner Name </label>
-          <input onChange={(e) => setData({ ...data, owner: e.target.value })} />
-        </div>
-
-        <label>Pull Requests Quantity</label>
-        <input type="number" onChange={(e) => setData({ ...data, pullQuant: parseInt(e.target.value, 10) })} />
-        <label>Issue Quantity</label>
-        <input type="number" onChange={(e) => setData({ ...data, issueQuant: parseInt(e.target.value, 10) })} />
-        <label>Issue State</label>
-        <select onChange={(e) => setData({ ...data, issueState: e.target.value })}>
-          <option />
-          <option>CLOSED</option>
-          <option>OPEN</option>
-        </select>
+        <Input
+          label="Github Repository Name"
+          changed={(e) => setData({ ...data, name: e.target.value })}
+          type="text"
+        />
+        <Input
+          label="Github Repository Owner"
+          changed={(e) => setData({ ...data, owner: e.target.value })}
+          type="text"
+        />
+        <Input
+          label="Enter Pull Request Quantity"
+          changed={(e) => setData({ ...data, pullQuanity: parseInt(e.target.value, 10) })}
+          type="number"
+        />
+        <Input
+          label="Enter Issue Quantity"
+          changed={(e) => setData({ ...data, issueQuanity: parseInt(e.target.value, 10) })}
+          type="number"
+        />
+        <Input
+          label="Enter Issue State"
+          changed={(e) => setData({ ...data, issueState: e.target.value })}
+          value={issueState}
+          type="select"
+        />
       </div>
 
       <Query
         variables={{
-          name, owner, pullQuant, issueQuant, issueState,
+          name, owner, pullQuanity, issueQuanity, issueState,
         }}
         query={GET_VIEWER}
       >
@@ -86,10 +93,10 @@ const Data = () => {
         {({ loading, error, data }) => (
           <Aux>
             {loading && <Spinner />}
-            {error && <p>{JSON.stringify(error)}</p>}
+            {error && data === null && <p>{JSON.stringify(error)}</p>}
             {!data && <p>No results</p>}
             {data && data.repository && (
-              <div>
+              <Aux>
                 {data.repository.issues.edges.length
                   ? data.repository.issues.edges.map(({ node }) => (
                     <IssueCard
@@ -107,7 +114,7 @@ const Data = () => {
                       title={node.title}
                     />
                   )) : null}
-              </div>
+              </Aux>
             )}
           </Aux>
         )}

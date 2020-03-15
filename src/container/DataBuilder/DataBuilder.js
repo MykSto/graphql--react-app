@@ -2,7 +2,6 @@ import React from 'react';
 import Aux from 'hoc/Auxiliary';
 import Login from 'component/UI/Form/Login/Login';
 import Button from 'component/UI/Button/Button';
-import Input from 'component/UI/Form/Input/Input';
 
 import Data from 'component/Data/Data';
 import { ApolloClient } from 'apollo-boost';
@@ -35,12 +34,14 @@ const DataBuilder = () => {
   return (
     <ApolloProvider client={client}>
       <Aux>
-        {accessToken ? 
-        //   <Aux>
-            <Button clicked={accessTokenHandler} btnType="Danger">Logout</Button>
-        //   </Aux>
-         : <Login />}
-        <Data />
+        {accessToken
+          ? (
+            <Aux>
+              <Button clicked={accessTokenHandler} btnType="Danger">Logout</Button>
+              <Data />
+            </Aux>
+          )
+          : <Login />}
       </Aux>
     </ApolloProvider>
   );
