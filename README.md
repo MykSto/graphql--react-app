@@ -21,11 +21,11 @@
 - eslint: ^6.8.0
 
 # How to use:
-- Close the repository
-- Install dependencies with `npm install`
-- Run with command `npm start`
+- Clone this repository
+- Install dependencies with command `npm install`
+- Start the application with command `npm start`
 - End point of the application is localhost:3000
-- AuthO token is required to be entered to get search results
+- AuthO token is required to enter search results
 
 # AuthO token of GitHub
 - Go to your GitHub account
