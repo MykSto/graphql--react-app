@@ -9,15 +9,16 @@
 - View comments of listed issues
 
 ## Used libraries:
--apollo-boost: ^0.4.7
--apollo-cache-inmemory: ^1.6.5
--"apollo-link-context": "^1.0.19",
--"apollo-link-http": "^1.5.16",
--"graphql": "^14.6.0",
--"react": "^16.13.0",
--"react-apollo": "^3.1.3",
--"react-dom": "^16.13.0",
--"react-scripts": "3.4.0"
+- apollo-boost: ^0.4.7
+- apollo-cache-inmemory: ^1.6.5
+- apollo-link-context: ^1.0.19
+- apollo-link-http: ^1.5.16
+- graphql: ^14.6.0
+- react: ^16.13.0
+- react-apollo: "^3.1.3
+- react-dom: "^16.13.0
+- react-scripts: "3.4.0
+- eslint: ^6.8.0
 
 # How to use:
 - Close the repository
