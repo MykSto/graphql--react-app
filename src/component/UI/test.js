@@ -2,7 +2,10 @@ import React from 'react';
 
 const Test = (props) => {
     return(
-    <p onClick={this.clicked}>{props.text}</p>
+        <div>
+            <p>Title: {props.title}</p>
+            <p>Text: {props.text}</p>
+        </div>
     )
 }
 

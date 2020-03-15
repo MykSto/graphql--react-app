@@ -4,7 +4,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Button from 'component/UI/Button/Button';
 import Spinner from 'component/UI/Spinner/Spinner';
-
+import Test from 'component/UI/test';
 
 const Data = () => {
   const [data, setData] = useState({
@@ -85,36 +85,22 @@ const Data = () => {
         {({ loading, error, data }) => (
           <Aux>
             {loading && <Spinner />}
-            {error && <p>ERROR</p>}
-            {!data && <p>Not found</p>}
-            {data && data.repository && data.repository.pullRequests
-            && data.repository.pullRequests.edges && Object.keys(data.repository.pullRequests.edges).map((el) => (
-              <p
-                key={data.repository.pullRequests.edges[el].node.id}
-                style={{ color: 'green' }}
-              >
-                {data.repository.pullRequests.edges[el].node.title}
-              </p>
-            ))}
-            {data && data.repository && data.repository.issues
-            && data.repository.issues.edges && Object.keys(data.repository.issues.edges).map((el) => (
-              <p
-                style={{ color: 'red' }}
-                onClick={()=> Object.keys(data.repository.issues.edges[el].node.comments.edges)
-                    .map(
-                    ele => {
-                        return (
-                        <p key={ele}>data.repository.issues.edges[el].node.comments.edges[ele].node.bodyText
-                                </p>
-                        )
-                    }
-                )
-                }
-                key={data.repository.issues.edges[el].node.id}
-              >
-                {data.repository.issues.edges[el].node.title}
-              </p>
-            ))}
+            {error && <p>{JSON.stringify(error)}</p>}
+            {!data && <p>No results</p>}
+            {data && data.repository && (
+              <div>
+                {data.repository.issues.edges.map(({ node }) => (
+                  <div key={node.id}>
+                    <p style={{ color: 'blue'}}>{node.title}</p>
+                  </div>
+                ))}
+                {data.repository.pullRequests.edges.map(({ node }) => (
+                  <div key={node.id}>
+                    <p style={{ color: 'red'}}>{node.title}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </Aux>
         )}
       </Query>
